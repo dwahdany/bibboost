@@ -1,4 +1,5 @@
 # BibBoost
+[![Build and Publish](https://github.com/dwahdany/bibboost/actions/workflows/publish.yml/badge.svg)](https://github.com/dwahdany/bibboost/actions/workflows/publish.yml)
 
 A CLI tool to update BibTeX files with conference versions of papers using the DBLP Computer Science Bibliography.
 
