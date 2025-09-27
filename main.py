@@ -3,6 +3,7 @@
 import os
 import sys
 import shutil
+import glob
 from pathlib import Path
 from typing import Optional
 
@@ -41,8 +42,23 @@ def update_bib(input_file: Path, output: Optional[Path],
     output_file = output or input_file
 
     # Create backup if requested and not doing dry run
+    backup_file = None
     if backup and not dry_run and output_file == input_file:
-        backup_file = input_file.with_suffix(input_file.suffix + '.backup')
+        # Find next available backup number using glob and sorting
+        pattern = f"{input_file.stem}{input_file.suffix}.backup.*"
+        existing_backups = glob.glob(str(input_file.parent / pattern))
+
+        # Extract numbers from existing backups and find the next one
+        def extract_backup_number(backup_path):
+            try:
+                return int(Path(backup_path).suffix[1:])  # Remove the dot and convert
+            except ValueError:
+                return None
+
+        backup_numbers = list(filter(None, map(extract_backup_number, existing_backups)))
+        next_number = max(backup_numbers, default=0) + 1
+        backup_file = input_file.with_suffix(f'{input_file.suffix}.backup.{next_number:03d}')
+
         if verbose:
             click.echo(f"Creating backup: {backup_file}")
         shutil.copy2(input_file, backup_file)
@@ -79,8 +95,7 @@ def update_bib(input_file: Path, output: Optional[Path],
                 click.echo(f"  Run without --dry-run to apply changes")
             else:
                 click.echo(f"  Updated file saved to: {output_file}")
-                if backup and output_file == input_file:
-                    backup_file = input_file.with_suffix(input_file.suffix + '.backup')
+                if backup and backup_file and output_file == input_file:
                     click.echo(f"  Backup saved to: {backup_file}")
         else:
             click.echo("  No updates needed")
