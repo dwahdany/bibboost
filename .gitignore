@@ -1,3 +1,6 @@
+.DS_Store
+*.backup
+*.bib
 # Python-generated files
 __pycache__/
 *.py[oc]
