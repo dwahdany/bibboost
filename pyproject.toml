@@ -1,11 +1,10 @@
 [project]
-name = "scholarly"
+name = "bib-updater"
 version = "0.1.0"
-description = "Add your description here"
+description = "Update BibTeX entries with published conference versions from DBLP"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "argparse>=1.4.0",
     "bibtexparser>=1.4.3",
     "click>=8.3.0",
     "python-dotenv>=1.1.1",
@@ -13,3 +12,9 @@ dependencies = [
     "requests>=2.32.5",
     "tenacity>=9.1.2",
 ]
+
+[project.scripts]
+bib-updater = "main:cli"
+
+[tool.setuptools]
+py-modules = ["main", "bib_updater", "dblp_client"]
