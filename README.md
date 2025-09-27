@@ -1,4 +1,4 @@
-# Scholarly BibTeX Updater
+# BibBoost
 
 A CLI tool to update BibTeX files with conference versions of papers using the Semantic Scholar API.
 

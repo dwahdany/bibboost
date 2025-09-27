@@ -1,7 +1,7 @@
 [project]
-name = "bib-updater"
+name = "bibboost"
 version = "0.1.0"
-description = "Update BibTeX entries with published conference versions from DBLP"
+description = "Boost your bibliography by updating BibTeX entries with published conference versions"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.scripts]
-bib-updater = "main:cli"
+bibboost = "main:cli"
 
 [tool.setuptools]
 py-modules = ["main", "bib_updater", "dblp_client"]
