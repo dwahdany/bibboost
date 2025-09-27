@@ -1,19 +1,29 @@
 # BibBoost
 
-A CLI tool to update BibTeX files with conference versions of papers using the Semantic Scholar API.
+A CLI tool to update BibTeX files with conference versions of papers using the DBLP Computer Science Bibliography.
 
 ## Features
 
 - **Interactive paper selection** - Choose from multiple versions with detailed information
-- **Complete metadata replacement** - Uses Semantic Scholar's complete BibTeX entries
+- **Complete metadata replacement** - Uses DBLP's complete BibTeX entries
 - **Smart preprint detection** - Only processes arXiv/preprint entries
 - **Backup protection** - Creates backups before modifying files
 - **Dry-run mode** - Preview changes without writing files
 
 ## Installation
 
+### Using uv (recommended)
+
 ```bash
-uv add click bibtexparser requests python-dotenv questionary tenacity
+uv tool install bibboost
+```
+
+### From source
+
+```bash
+git clone <repository-url>
+cd bib-updater
+uv sync
 ```
 
 ## Usage
@@ -22,34 +32,19 @@ uv add click bibtexparser requests python-dotenv questionary tenacity
 
 ```bash
 # Interactive update with complete metadata
-uv run python main.py update-bib papers.bib
+bibboost papers.bib
 
 # Preview changes without modifying the file
-uv run python main.py update-bib papers.bib --dry-run --verbose
+bibboost papers.bib --dry-run --verbose
 
 # Save to a different output file
-uv run python main.py update-bib papers.bib --output updated_papers.bib
+bibboost papers.bib --output updated_papers.bib
 ```
 
-### With API Key (Recommended)
-
-Get a free API key from [Semantic Scholar](https://www.semanticscholar.org/product/api) for better rate limits:
-
-1. Set environment variable:
-```bash
-export SEMANTIC_SCHOLAR_API_KEY="your-api-key"
-uv run python main.py update-bib papers.bib
-```
-
-2. Or pass it directly:
-```bash
-uv run python main.py update-bib papers.bib --api-key "your-api-key"
-```
 
 ### Options
 
 - `--output/-o`: Specify output file (default: updates input file)
-- `--api-key`: Semantic Scholar API key
 - `--dry-run`: Preview changes without writing files
 - `--verbose/-v`: Show detailed progress
 - `--backup/--no-backup`: Create backup file (default: True)
@@ -57,12 +52,12 @@ uv run python main.py update-bib papers.bib --api-key "your-api-key"
 ## How It Works
 
 1. **Parse BibTeX file** - Identifies preprint/arXiv entries (skips published papers)
-2. **Search Semantic Scholar** - Finds all available versions of each paper
+2. **Search DBLP** - Finds all available versions of each paper
 3. **Interactive selection** - Shows detailed paper information for user choice:
    - Original BibTeX entry details
    - All found versions with authors, venues, and years
    - Visual separators for easy scanning
-4. **Complete replacement** - Uses Semantic Scholar's complete BibTeX citation
+4. **Complete replacement** - Uses DBLP's complete BibTeX citation
 5. **Preserve citation keys** - Keeps your original IDs for existing citations
 
 ## Interactive Selection
@@ -93,7 +88,7 @@ When multiple versions are found, you'll see:
 
 ## Complete Metadata Replacement
 
-The tool uses Semantic Scholar's `citationStyles.bibtex` field to get complete, properly formatted entries:
+The tool uses DBLP's BibTeX export to get complete, properly formatted entries:
 
 **Before (arXiv preprint):**
 ```bibtex
